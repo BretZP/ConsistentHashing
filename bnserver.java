@@ -2,11 +2,13 @@ import java.io.*;
 import java.util.*;
 
 public class bnserver {
-    private TreeMap<Integer, String> localKeyData;
+    private TreeMap<Integer, String> localKeyData; //Sorts automatically by key, which is helpful for deciding where to store keys without extra steps
     private int id;
     private int port;
     private int successorId = 0;
+    private int successorPort = 0;
     private int predecessorId = 0;
+    private int predecessorPort = 0;
 
     public bnserver(String configFilePath) {
         this.localKeyData = new TreeMap<Integer, String>();
@@ -26,8 +28,10 @@ public class bnserver {
             System.out.println("Usage: java bnserver <config_file_path>");
             return;
         }
-        
+
         bnserver server = new bnserver(args[0]);
+
+
     }
 
     //Set up instance variables and put all initial values into the Bootstrap Server's map
@@ -45,6 +49,8 @@ public class bnserver {
                     String line = scanner.nextLine();
                     String[] parts = line.split(" ");
                     port = Integer.parseInt(parts[0]);
+                    successorPort = port; //Initially points to itself
+                    predecessorPort = port; //Initially points to itself
                     i++;
                 } else {
                 String line = scanner.nextLine();
@@ -60,4 +66,5 @@ public class bnserver {
             e.printStackTrace();
         }
     }
+
 }
