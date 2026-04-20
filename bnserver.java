@@ -1,0 +1,178 @@
+import java.io.*;
+import java.util.*;
+import java.net.*;
+import java.lang.*;
+
+public class bnserver {
+    private TreeMap<Integer, String> localKeyData; //Sorts automatically by key, which is helpful for deciding where to store keys without extra steps
+    private int id;
+    private int port;
+    private int successorId = 0;
+    private int successorPort = 0;
+    private int predecessorId = 0;
+    private int predecessorPort = 0;
+    private Socket socket = null;
+    
+    
+    public bnserver(String configFilePath) {
+        this.localKeyData = new TreeMap<Integer, String>();
+        this.id = 0;
+        this.port = 0;
+
+        //Initially points to iteslf on creation (only 1 node)
+        this.successorId = 0;
+        this.predecessorId = 0;
+
+        //Set up localKeyData
+        File configFile = new File(configFilePath);
+        mapInit(configFile);
+
+    }
+
+    public static void main(String[] args) {
+        if (args.length < 1) {
+            System.out.println("Usage: java bnserver <config_file_path>");
+            return;
+        }
+        bnserver server = new bnserver(args[0]);
+        Scanner scanner = new Scanner(System.in);
+
+        // Handles user commands (Lookup, Insert, Delete)
+        new Thread(() -> {
+            // client commands
+
+        }).start();
+
+        // Handles name servers messaging (Entry, Exit)
+        new Thread(() -> {
+            // name server commands
+            try(ServerSocket serverSocket = new ServerSocket(server.port)) {
+                while (true) {
+                    Socket clientSocket = serverSocket.accept();
+                    BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                    PrintWriter output = new PrintWriter(clientSocket.getOutputStream(), true);
+                    String message = input.readLine();
+                    server.serverCommand(message, clientSocket);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }).start();
+    }    
+
+    //Set up instance variables and put all initial values into the Bootstrap Server's map
+    private void mapInit(File configFile) {
+        try {
+            Scanner scanner = new Scanner(configFile);
+            int i = 0;
+            while (scanner.hasNextLine()) {
+                if (i == 0) {
+                    String line = scanner.nextLine();
+                    String[] parts = line.split(" ");
+                    id = Integer.parseInt(parts[0]);
+                    i++;
+                } else if (i == 1) {
+                    String line = scanner.nextLine();
+                    String[] parts = line.split(" ");
+                    port = Integer.parseInt(parts[0]);
+                    successorPort = port; //Initially points to itself
+                    predecessorPort = port; //Initially points to itself
+                    i++;
+                } else {
+                String line = scanner.nextLine();
+                String[] parts = line.split(" ");
+                int key = Integer.parseInt(parts[0]);
+                String value = parts[1];
+                localKeyData.put(key, value);
+                i++;
+            }
+        }
+        scanner.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // helper to process user Command (Lookup, Insert, Delete)
+    private void userCommand(String commandLine) {
+        
+            String[] commandParts = commandLine.split(" ");
+            String command = commandParts[0];
+            if (command.equalsIgnoreCase("Lookup")) {
+                if (commandParts.length < 2) {
+                    System.out.println("Lookup command requires a key");
+                } else {
+                    try {
+                        int key = Integer.parseInt(commandParts[1]);
+                        
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid key format. Key should be an integer.");
+                    }
+                }
+                
+
+            } else if (command.equalsIgnoreCase("Insert")) {
+
+
+            } else if (command.equalsIgnoreCase("Delete")) {
+
+            } else {
+
+            System.out.println("Invalid command. Please use Lookup, Insert, or Delete.");
+            }
+        }
+
+    // helper to process commands from name server (Entry, Exit)
+    private void serverCommand(String message,  Socket socket) {
+        String commandParts[] = message.split(" ");
+        String command = commandParts[0];
+        
+        if (command.equalsIgnoreCase("Entry")) {
+            System.out.println("Received Entry command from name server.");
+            int newNodeId = Integer.parseInt(commandParts[1]);
+            int newNodePort = Integer.parseInt(commandParts[2]);
+            if (ownId(newNodeId) == true) {
+                // Transfer keys to new node
+                System.out.println(newNodeId + " " + newNodePort); 
+
+
+            } else {
+                // Forward message to succesor
+            }
+        } else if (command.equalsIgnoreCase("Exit")) {
+
+        } else {
+            System.out.println("Invalid command from name server. Please use Entry or Exit.");
+        }
+
+
+         // Process the message/command from the name server
+
+
+
+    }
+
+    // helper to receive entry message from name server
+    private void entry(Socket socket) {
+          
+
+    }
+
+    private void insert(int key, String value) {
+
+    }
+
+    private void delete(int key) {
+
+    }
+
+    private boolean ownId(int key) {
+        if (key > predecessorId || key <= id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
