@@ -55,11 +55,11 @@ Configuration files for BootServer/NameServer
 - Start Name Server(s)
    // java nserver.java nconfig_example.txt
 ## Test Instructions:
-  - 'LOOKUP <key>'
-  - 'INSERT <key> <value>'
-  - 'DELETE <key>'
-  - 'ENTRY'  
-  - 'EXIT'
+  - `LOOKUP <key>`
+  - `INSERT <key> <value>`
+  - `DELETE <key>`
+  - `ENTRY`  
+  - `EXIT`
 ## Folder Structure:
     ConsistentHashing/
       |--bnserver.java
