@@ -5,18 +5,18 @@ Project Overview:
 
 
 ## Architecture Summary:
-   - **BootServer  (bootServer.java)
+   - **BootServer  (bootServer.java)**
    This is the main server that initializes the system
    Handle join requests from new nodes
    Maintains initial ring structure
  
-  - **NameServer (nameServer.java)
+  - **NameServer (nameServer.java)**
   Represents an instance of a node in the system
   It is assigned a range of keys that will store
   Stores key-value pairs locally
   Maintains knowledge of successor and predecessor
 
-** Configuration Files **
+**Configuration Files**
 - bconfigfile_example.txt
 - nconfigfile_example.txt
 Configuration files for BootServer/NameServer
