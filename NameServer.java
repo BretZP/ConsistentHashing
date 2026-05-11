@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.Scanner;
 
 public class NameServer extends BaseNode {
     
@@ -38,7 +39,30 @@ public class NameServer extends BaseNode {
 
     @Override
     public void mapInit(File file) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mapInit'");
-    }
+        try {
+            Scanner scanner = new Scanner(file);
+            int i = 0;
+
+            for (i = 0; i < 2; i++) {
+                String line = scanner.nextLine();
+                String[] parts = line.split(" ");
+                if (i == 0) {
+                    this.ID = Integer.parseInt(parts[0]);
+                } else if (i == 1) {
+                    this.Port = Integer.parseInt(parts[0]);
+                    this.successorPort = this.Port;
+                    this.predecessorPort = this.Port;
+                } else {
+                    this.BootStrapIP = parts[0];
+                    this.BootStrapPort = Integer.parseInt(parts[1]);
+
+                }
+
+                }
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+
+        }
 }
+

@@ -9,12 +9,20 @@ import java.util.*;
 
 
 public class BootDriver {
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         BootServer bootStrap = new BootServer();
-            File  bootfile = new File(args[0]);
+        File  bootfile = new File(args[0]);
            
-            bootStrap.mapInit(bootfile);
-            
+        bootStrap.mapInit(bootfile);
+
+        UserCommandHandler userCommandHandler = new UserCommandHandler(bootStrap);
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("enter command: ");
+            String command = scanner.nextLine();
+            userCommandHandler.handleCommand(command);
+        }
 
         
 

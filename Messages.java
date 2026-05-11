@@ -8,7 +8,6 @@ public class Messages implements Serializable {
 
     MessageType message; 
 
-
     public void setType (MessageType msg) {
         this.message = msg;
     }

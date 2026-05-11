@@ -16,6 +16,15 @@ public class nserver {
 
     private Socket socket = null;
 
+
+    // This code together with nconfig_example.txt and bnserver.java is a starting point for 
+    // this project. Thie code can be run with nconfig_example.txt as an instance of a Name Server
+    // If BootStrap server is running, an instance of this server can use the commmand
+    // "Entry" to enter the hash ring.
+    // Commands:
+    // Entry
+    // Exit
+    // This code takes nconfig_example.txt as the only parameter.
     BufferedInputStream ninput = null;
     PrintWriter noutput = null;
 

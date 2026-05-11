@@ -13,12 +13,16 @@ import java.util.*;
     public int ID;
     public int IP;
 
+    public String BootStrapIP;
+    public int BootStrapPort;
+
     public boolean ownKey(int key) {
 
 
-                if (predecessorId == ID) {
+        if (predecessorId == ID) {
             return true; // 1 node in ring
         }
+
         if (predecessorId < ID) { // regular case
             if (key > predecessorId && key <= ID) { // key belongs to this node
                 return true;
@@ -36,8 +40,6 @@ import java.util.*;
         }
         return false;
     }
-
-
 
 }
 

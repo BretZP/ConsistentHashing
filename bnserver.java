@@ -2,7 +2,14 @@ import java.io.*;
 import java.util.*;
 import java.net.*;
 import java.lang.*;
-
+// This code together with bnconfig_example.txt and nserver.java is a starting point for
+// this project. This code can be run with bnconfig_example.txt as the Bootstrap Server
+// and nserver.java as the Name servers instances. Name servers can enter the hash ring
+// Commands:
+// Lookup <key>
+// Insert <key> <value>
+// Delete <key>
+// This code takes bnconfig_example.txt as the only parameter.
 public class bnserver {
     private TreeMap<Integer, String> localKeyData; //Sorts automatically by key, which is helpful for deciding where to store keys without extra steps
     private int id;
