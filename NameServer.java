@@ -1,3 +1,5 @@
+import java.io.File;
+
 public class NameServer extends BaseNode {
     
 
@@ -12,9 +14,9 @@ public class NameServer extends BaseNode {
         throw new UnsupportedOperationException("Unimplemented method 'handleEntry'");
     }
 
+ 
     @Override
     public void handleExit(Messages msg) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'handleExit'");
     }
 
@@ -26,13 +28,17 @@ public class NameServer extends BaseNode {
 
     @Override
     public void handleDelete(Messages msg) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleDelete'");
+         throw new UnsupportedOperationException("Unimplemented method 'handleDelete'");
     }
 
     @Override
     public void handleLookUP(Messages msg) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'handleLookUP'");
+    }
+
+    @Override
+    public void mapInit(File file) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'mapInit'");
     }
 }
