@@ -2,7 +2,7 @@ import java.util.*;
 
 
  public abstract class BaseNode implements Node {
-    public Map<String, Integer> storeKeys;
+    public TreeMap<Integer, String> storeKeys = new TreeMap<>();
     public int predecessorId;
     public int predecessorPort;
     public int predecessorIP;

@@ -1,4 +1,4 @@
-
+import java.io.*;
 
 public interface Node {
     void handleEntry(Messages msg);
@@ -9,5 +9,6 @@ public interface Node {
     
     boolean ownKey(int key);     
     void start();
+    void mapInit(File file);
     
 }
