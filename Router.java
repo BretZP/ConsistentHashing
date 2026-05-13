@@ -8,15 +8,18 @@ public class Router {
     }
 
     public void route(Messages msg) {
-        switch (msg.getType()) {
-            case ENTRY -> node.handleEntry(msg);
-            case EXIT -> node.handleExit(msg);
-            case INSERT -> node.handleInsert(msg);
-            case DELETE -> node.handleDelete(msg);
-            case LOOK_UP -> node.handleLookUP(msg);
+        if (msg.getType() == null) {
+            System.err.println("Message type is null");
+        } else {
+            switch (msg.getType()) {
+                case ENTRY -> node.handleEntry(msg);
+                case EXIT -> node.handleExit(msg);
+                case INSERT -> node.handleInsert(msg);
+                case DELETE -> node.handleDelete(msg);
+                case LOOK_UP -> node.handleLookUP(msg);
+                case STATUS -> node.handleStatus(msg);
+            }
         }
-
-
 
     }
  

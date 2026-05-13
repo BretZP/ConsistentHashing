@@ -13,3 +13,10 @@ background worker / socket server if used
 ## Node interface:
     We create a node interface to handle initialization of nodes
     (BootServer & Nserver).
+
+# 3) Command routing 
+   - Users command:
+      - I implemented a class Messages with Enum Type messages. The idea is to create object Messages and sent it through the router, then the router will decide what method to call. 
+   - Node communication:
+      - 
+

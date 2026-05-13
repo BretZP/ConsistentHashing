@@ -15,7 +15,8 @@ public class BootDriver {
            
         bootStrap.mapInit(bootfile);
 
-        UserCommandHandler userCommandHandler = new UserCommandHandler(bootStrap);
+        Router router = new Router(bootStrap);
+        UserCommandHandler userCommandHandler = new UserCommandHandler(bootStrap, router);
         Scanner scanner = new Scanner(System.in);
 
         while (true) {

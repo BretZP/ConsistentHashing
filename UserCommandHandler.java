@@ -8,14 +8,13 @@ public class UserCommandHandler {
         this.router = router;
     }
 
-    public Messages handleCommand(String command) {
+    public void handleCommand(String command) {
         String commandParts[] = command.split(" ");
-        String action = commandParts[0];
-        Messages msg = action.valueOf(action);
-
-        return msg;
-
-
+        String content = "";
+        String action = commandParts[0].toUpperCase();
+        Messages msg = new Messages(action, content);
+        
+        router.route(msg);
     }   
 
 }

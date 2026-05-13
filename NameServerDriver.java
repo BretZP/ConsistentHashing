@@ -8,12 +8,14 @@ public class NameServerDriver {
 
         nameServer.mapInit(fileConfig);
         Scanner scanner = new Scanner(System.in);
-        UserCommandHandler userCommandHandler = new UserCommandHandler(nameServer);
+        Router router = new Router(nameServer);
+        UserCommandHandler userCommandHandler = new UserCommandHandler(nameServer, router);
 
         while (true) {
             System.out.println("Enter command> ");
             String command = scanner.nextLine();
             userCommandHandler.handleCommand(command);
+            
         }
         
 

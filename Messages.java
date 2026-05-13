@@ -3,15 +3,22 @@ import java.io.Serializable;
 
 public class Messages implements Serializable {
     public enum MessageType {
-        ENTRY, EXIT, INSERT, DELETE, LOOK_UP;
+        ENTRY, EXIT, INSERT, DELETE, LOOK_UP, STATUS;
     }
 
     MessageType message; 
+    String content;
 
-    public void setType (MessageType msg) {
-        this.message = msg;
+    public Messages(String msg, String content) {
+        try {
+            this.message = MessageType.valueOf(msg);
+            this.content = content;
+
+        } catch (IllegalArgumentException e) {
+            System.err.println("Invalid command: " + msg);
+        }
     }
-    
+
     public MessageType getType() {    
         return message;
     }

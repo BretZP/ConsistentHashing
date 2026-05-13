@@ -38,6 +38,14 @@ public class NameServer extends BaseNode {
     }
 
     @Override
+    public void handleStatus(Messages msg) {
+        System.out.println("Router is working");
+        System.out.println("ID: " + this.ID);
+        System.out.println("Successor: " + this.successorId);
+
+    }
+
+    @Override
     public void mapInit(File file) {
         try {
             Scanner scanner = new Scanner(file);

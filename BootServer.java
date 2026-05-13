@@ -39,6 +39,13 @@ public class BootServer extends BaseNode {
     }
 
     @Override
+    public void handleStatus(Messages msg) {
+        System.out.println("Router is working");
+        System.out.println("ID: " + this.ID);
+        System.out.println("Port: " + this.Port);
+    }
+
+    @Override
     public void mapInit(File configFile) {
         try {
             Scanner scanner = new Scanner(configFile);

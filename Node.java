@@ -6,6 +6,7 @@ public interface Node {
     void handleInsert(Messages msg);
     void handleDelete(Messages msg);
     void handleLookUP(Messages msg);
+    void handleStatus(Messages msg);
     
     boolean ownKey(int key);     
     void start();

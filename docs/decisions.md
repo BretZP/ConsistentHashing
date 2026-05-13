@@ -8,7 +8,9 @@
       contains enums MessageType
     - Reasoning: Enums holds instance objects of a class. Messages class implements Serialization. This means we can send instances of messages objects through streams (communication among servers) in a more structure way.
 006 - Applying Command Pattern for our comunnication layer
-    -Reasoning: 
+    -Reasoning: It makes the code more readable and easy to fix.
+    For example, we can trace the issue among layers thanks to different exceptions in different classes together with print statements. Scoping the errors to one class, reduces complexity.  
+    
 
 
 
