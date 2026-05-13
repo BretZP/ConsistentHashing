@@ -10,8 +10,8 @@ public class BootServer extends BaseNode {
 
     @Override
     public void handleEntry(Messages msg) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleEntry'");
+        this.networkHandler.listenMessage();
+
     }
 
     @Override

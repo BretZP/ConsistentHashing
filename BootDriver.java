@@ -18,6 +18,9 @@ public class BootDriver {
         Router router = new Router(bootStrap);
         UserCommandHandler userCommandHandler = new UserCommandHandler(bootStrap, router);
         Scanner scanner = new Scanner(System.in);
+        NetworkHandler networkHandler = new NetworkHandler(router, bootStrap.Port);
+        bootStrap.networkHandler = networkHandler;
+        networkHandler.listenMessage();
 
         while (true) {
             System.out.println("enter command: ");

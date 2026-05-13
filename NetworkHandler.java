@@ -9,7 +9,6 @@ public class NetworkHandler {
     Router router;
     ServerSocket serverSocket;
     
-
     public NetworkHandler(Router router, int port) {
         this.router = router;
         this.port = port;
@@ -21,7 +20,7 @@ public class NetworkHandler {
             Socket sender = new Socket(host, port);
             System.out.println(sender.getLocalAddress());
         } catch (IOException e) {
-            System.err.println(e);
+            System.err.println("Error sending message");
         }
 
     }
@@ -32,9 +31,8 @@ public class NetworkHandler {
             listener = serverSocket.accept();
             System.out.println(listener.getLocalAddress());
 
-
         } catch (IOException e) {
-            System.err.println(e);
+            System.err.println("Error listening for message");
         }
     }
 

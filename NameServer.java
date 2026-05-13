@@ -11,8 +11,11 @@ public class NameServer extends BaseNode {
     
     @Override
     public void handleEntry(Messages msg) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleEntry'");
+        this.networkHandler.sendMessage(this.BootStrapIP, this.BootStrapPort, msg);
+        System.out.println(this.BootStrapIP);
+        System.out.println(this.BootStrapPort);
+        System.out.println(msg);
+        
     }
 
  
@@ -41,8 +44,9 @@ public class NameServer extends BaseNode {
     public void handleStatus(Messages msg) {
         System.out.println("Router is working");
         System.out.println("ID: " + this.ID);
+        System.out.println("Port: " + this.Port);
         System.out.println("Successor: " + this.successorId);
-
+        System.out.println(BootStrapPort);
     }
 
     @Override
@@ -50,23 +54,35 @@ public class NameServer extends BaseNode {
         try {
             Scanner scanner = new Scanner(file);
             int i = 0;
+            while(scanner.hasNextLine()) {
 
-            for (i = 0; i < 2; i++) {
-                String line = scanner.nextLine();
-                String[] parts = line.split(" ");
                 if (i == 0) {
+                    String line = scanner.nextLine();
+                    String[] parts = line.split(" ");
                     this.ID = Integer.parseInt(parts[0]);
-                } else if (i == 1) {
+                    i++;
+
+                } if (i == 1) {
+                    String line = scanner.nextLine();
+                    String[] parts = line.split(" ");
                     this.Port = Integer.parseInt(parts[0]);
-                    this.successorPort = this.Port;
-                    this.predecessorPort = this.Port;
+                    successorPort = this.Port;
+                    predecessorPort = this.Port;
+                    i++;
+
+
                 } else {
+                    String line = scanner.nextLine();
+                    String[] parts = line.split(" ");
                     this.BootStrapIP = parts[0];
                     this.BootStrapPort = Integer.parseInt(parts[1]);
-
+                    i++;
                 }
 
-                }
+                
+            }
+
+            scanner.close();
             } catch (Exception e) {
                 System.err.println(e);
             }

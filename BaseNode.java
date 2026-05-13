@@ -16,6 +16,8 @@ import java.util.*;
     public String BootStrapIP;
     public int BootStrapPort;
 
+    public NetworkHandler networkHandler;
+
     public boolean ownKey(int key) {
 
 
