@@ -5,18 +5,28 @@ import java.util.*;
     public TreeMap<Integer, String> storeKeys = new TreeMap<>();
     public int predecessorId;
     public int predecessorPort;
-    public int predecessorIP;
+    public String predecessorIp;
     public int successorPort;
     public int successorId;
-    public int successorIP;
+    public String successorIp;
     public int Port;
     public int ID;
-    public int IP;
+    public String IP;
 
     public String BootStrapIP;
     public int BootStrapPort;
 
     public NetworkHandler networkHandler;
+    public Router router;
+
+
+    public void setRouter(Router router) {
+        this.router = router;
+    }
+
+    public void setNetworkHandler(NetworkHandler networkHandler) {
+        this.networkHandler = networkHandler;
+    }
 
     public boolean ownKey(int key) {
 

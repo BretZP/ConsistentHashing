@@ -18,6 +18,7 @@ public class Router {
                 case DELETE -> node.handleDelete(msg);
                 case LOOK_UP -> node.handleLookUP(msg);
                 case STATUS -> node.handleStatus(msg);
+                case UPDATE_SUCCESSOR -> node.handleUpdateSuccessor(msg);
             }
         }
 

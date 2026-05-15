@@ -18,7 +18,10 @@ public class NameServerDriver {
         Router router = new Router(nameServer);
         UserCommandHandler userCommandHandler = new UserCommandHandler(nameServer, router);
         NetworkHandler networkHandler = new NetworkHandler(router, nameServer.Port);
-        nameServer.networkHandler = networkHandler;
+        nameServer.setNetworkHandler(networkHandler);
+   
+
+
 
         while (true) {
             System.out.println("Enter command> ");

@@ -11,11 +11,8 @@ public class NameServer extends BaseNode {
     
     @Override
     public void handleEntry(Messages msg) {
+        msg.content = this.ID + " " + this.Port + " " + this.IP;
         this.networkHandler.sendMessage(this.BootStrapIP, this.BootStrapPort, msg);
-        System.out.println(this.BootStrapIP);
-        System.out.println(this.BootStrapPort);
-        System.out.println(msg);
-        
     }
 
  
@@ -42,11 +39,13 @@ public class NameServer extends BaseNode {
 
     @Override
     public void handleStatus(Messages msg) {
-        System.out.println("Router is working");
-        System.out.println("ID: " + this.ID);
-        System.out.println("Port: " + this.Port);
-        System.out.println("Successor: " + this.successorId);
-        System.out.println(BootStrapPort);
+        System.out.println(this.ID);
+        System.out.println(successorId);
+        System.out.println(successorPort);
+        System.out.println(successorIp);
+        System.out.println(predecessorId);
+        System.out.println(predecessorPort);
+        System.out.println(predecessorIp);
     }
 
     @Override
@@ -88,5 +87,17 @@ public class NameServer extends BaseNode {
             }
 
         }
+
+    @Override
+    public void handleUpdateSuccessor(Messages msg) {
+        // Id, port, ip
+        String content[] = msg.content.split(" ");
+        this.successorId = Integer.parseInt(content[0]);
+        this.successorPort = Integer.parseInt(content[1]);
+        this.successorIp = content[2];
+        
+
+    }
+
 }
 

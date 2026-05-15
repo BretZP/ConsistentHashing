@@ -1,3 +1,5 @@
+
+
 public class UserCommandHandler {
     
     BaseNode node;
@@ -11,6 +13,9 @@ public class UserCommandHandler {
     public void handleCommand(String command) {
         String commandParts[] = command.split(" ");
         String content = "";
+        for (int i = 1; i < commandParts.length; i++) {
+            content += commandParts[i] + " ";
+        }
         String action = commandParts[0].toUpperCase();
         Messages msg = new Messages(action, content);
         

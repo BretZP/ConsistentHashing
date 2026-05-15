@@ -6,27 +6,45 @@ import java.io.FileReader;
 import java.io.IOError;
 import java.io.IOException;
 import java.util.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.io.ObjectInputStream;
 
 
 public class BootDriver {
     public static void main(String[] args) {
         BootServer bootStrap = new BootServer();
         File  bootfile = new File(args[0]);
-           
         bootStrap.mapInit(bootfile);
-
+        
         Router router = new Router(bootStrap);
-        UserCommandHandler userCommandHandler = new UserCommandHandler(bootStrap, router);
-        Scanner scanner = new Scanner(System.in);
         NetworkHandler networkHandler = new NetworkHandler(router, bootStrap.Port);
-        bootStrap.networkHandler = networkHandler;
-        networkHandler.listenMessage();
+        bootStrap.setNetworkHandler(networkHandler);
+        bootStrap.setRouter(router);
+        UserCommandHandler userCommandHandler = new UserCommandHandler(bootStrap, router);
+        
 
-        while (true) {
-            System.out.println("enter command: ");
-            String command = scanner.nextLine();
-            userCommandHandler.handleCommand(command);
-        }
+        // Server messages thread
+        new Thread(() -> {
+            try (ServerSocket serverSocket = new ServerSocket(bootStrap.Port)) {
+            while(true) {
+                Socket clientSocket = networkHandler.listenMessage(serverSocket);
+                networkHandler.readMessage(clientSocket);
+                
+            }
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            }
+        }).start();
+
+        //User command thread
+        new Thread(() -> {
+
+
+
+
+        }).start();
 
         
 

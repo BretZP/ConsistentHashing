@@ -10,7 +10,42 @@ public class BootServer extends BaseNode {
 
     @Override
     public void handleEntry(Messages msg) {
-        this.networkHandler.listenMessage();
+        // check for index out of bounds
+        // SenderID , SenderPort, SenderIP
+        String[] contentParts = msg.content.split(" ");
+        if (contentParts.length < 3) {
+            System.err.println("Invalid message format from sender");
+            return;
+        } else {
+            int senderId = Integer.parseInt(contentParts[0]);
+            int senderPort = Integer.parseInt(contentParts[1]);
+            String senderIp = contentParts[2];
+            if (this.ownKey(senderId)) {
+                if (this.predecessorId == this.ID) {
+                    this.predecessorId = senderId;
+                    this.predecessorPort = senderPort;
+                    this.predecessorIp = senderIp;
+                    this.successorId = senderId;
+                    this.successorPort = senderPort;
+                    this.successorIp = senderIp;
+
+                } else {
+                    // old predecessor updates its succesor to new node
+                    Messages updateSucessor = new Messages("UPDATE_SUCCESSOR", senderId + " " + senderPort + " " + senderIp);
+                    this.networkHandler.sendMessage(this.predecessorIp, this.predecessorPort, updateSucessor);
+
+                    this.predecessorId = senderId;
+                    this.predecessorPort = senderPort;
+                    this.predecessorIp = senderIp;
+
+                }
+
+            } else {
+
+                this.networkHandler.sendMessage(this.successorIp, this.successorPort, msg);
+            }
+        }
+        
 
     }
 
@@ -76,6 +111,12 @@ public class BootServer extends BaseNode {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void handleUpdateSuccessor(Messages msg) {
+        
+
     }
 
     

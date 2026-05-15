@@ -7,6 +7,7 @@ public interface Node {
     void handleDelete(Messages msg);
     void handleLookUP(Messages msg);
     void handleStatus(Messages msg);
+    void handleUpdateSuccessor(Messages msg);
     
     boolean ownKey(int key);     
     void start();
