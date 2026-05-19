@@ -22,6 +22,7 @@ public class BootDriver {
         bootStrap.setNetworkHandler(networkHandler);
         bootStrap.setRouter(router);
         UserCommandHandler userCommandHandler = new UserCommandHandler(bootStrap, router);
+        Scanner scanner = new Scanner(System.in);
         
 
         // Server messages thread
@@ -40,7 +41,11 @@ public class BootDriver {
 
         //User command thread
         new Thread(() -> {
-
+            while (true) {
+                System.out.print("Inser command> ");
+                String command = scanner.nextLine();
+                userCommandHandler.handleCommand(command);
+            }
 
 
 

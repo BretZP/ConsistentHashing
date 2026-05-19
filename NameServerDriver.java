@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOError;
 import java.io.IOException;
 import java.util.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class NameServerDriver {
     public static void main(String[] args) {
@@ -20,22 +22,31 @@ public class NameServerDriver {
         NetworkHandler networkHandler = new NetworkHandler(router, nameServer.Port);
         nameServer.setNetworkHandler(networkHandler);
    
+        new Thread(() -> {            
+            while (true) {
+                System.out.println("Enter command> ");
+                String command = scanner.nextLine();
+                userCommandHandler.handleCommand(command);
+                
+            }
 
-
-
-        while (true) {
-            System.out.println("Enter command> ");
-            String command = scanner.nextLine();
-            userCommandHandler.handleCommand(command);
-            
-        }
+        }).start();
         
+        new Thread(() -> {
+            try (ServerSocket serverSocket = new ServerSocket(nameServer.Port)) {
+                while(true) {
+                    Socket clientSocket = networkHandler.listenMessage(serverSocket);
+                    networkHandler.readMessage(clientSocket);
+                    
+                }
 
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-
-
+        }).start();        
+        
+        
     }
-
-
 
 }

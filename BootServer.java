@@ -28,15 +28,18 @@ public class BootServer extends BaseNode {
                     this.successorId = senderId;
                     this.successorPort = senderPort;
                     this.successorIp = senderIp;
+                    Messages updateSucessor = new Messages("UPDATE_SUCCESSOR", this.ID + " " + this.Port + " " + this.IP);
+                    this.networkHandler.sendMessage("localhost", this.predecessorPort, updateSucessor);
 
+        
                 } else {
                     // old predecessor updates its succesor to new node
                     Messages updateSucessor = new Messages("UPDATE_SUCCESSOR", senderId + " " + senderPort + " " + senderIp);
-                    this.networkHandler.sendMessage(this.predecessorIp, this.predecessorPort, updateSucessor);
-
                     this.predecessorId = senderId;
                     this.predecessorPort = senderPort;
                     this.predecessorIp = senderIp;
+                    this.networkHandler.sendMessage(this.predecessorIp, this.predecessorPort, updateSucessor);
+
 
                 }
 
@@ -78,6 +81,8 @@ public class BootServer extends BaseNode {
         System.out.println("Router is working");
         System.out.println("ID: " + this.ID);
         System.out.println("Port: " + this.Port);
+        System.out.println("Predecessor ID: " + this.predecessorId);
+        System.out.println("Successor ID: " + this.successorId);
     }
 
     @Override

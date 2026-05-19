@@ -40,12 +40,11 @@ public class NameServer extends BaseNode {
     @Override
     public void handleStatus(Messages msg) {
         System.out.println(this.ID);
-        System.out.println(successorId);
-        System.out.println(successorPort);
-        System.out.println(successorIp);
-        System.out.println(predecessorId);
-        System.out.println(predecessorPort);
-        System.out.println(predecessorIp);
+        System.out.println(this.successorId);
+        System.out.println(this.successorPort);
+        System.out.println(this.predecessorId);
+        System.out.println(this.predecessorPort);
+       
     }
 
     @Override
@@ -67,6 +66,8 @@ public class NameServer extends BaseNode {
                     this.Port = Integer.parseInt(parts[0]);
                     successorPort = this.Port;
                     predecessorPort = this.Port;
+                    successorId = this.ID;
+                    predecessorId = this.ID;
                     i++;
 
 
@@ -91,6 +92,8 @@ public class NameServer extends BaseNode {
     @Override
     public void handleUpdateSuccessor(Messages msg) {
         // Id, port, ip
+        System.out.println("update succ receive");
+        System.out.println(msg.content);
         String content[] = msg.content.split(" ");
         this.successorId = Integer.parseInt(content[0]);
         this.successorPort = Integer.parseInt(content[1]);
