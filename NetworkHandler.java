@@ -25,10 +25,10 @@ public class NetworkHandler {
             ObjectOutputStream out = new ObjectOutputStream(sender.getOutputStream());
             out.writeObject(msg);
             out.flush();
+            sender.close();
         } catch (IOException e) {
             System.err.println("Error sending message");
         }
-
     }
 
     public void readMessage(Socket socket) {

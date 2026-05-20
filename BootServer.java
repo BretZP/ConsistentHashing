@@ -28,10 +28,14 @@ public class BootServer extends BaseNode {
                     this.successorId = senderId;
                     this.successorPort = senderPort;
                     this.successorIp = senderIp;
+
+
                     Messages updateSucessor = new Messages("UPDATE_SUCCESSOR", this.ID + " " + this.Port + " " + this.IP);
                     this.networkHandler.sendMessage("localhost", this.predecessorPort, updateSucessor);
-
-        
+                    Messages updatePredecessor = new Messages("UPDATE_PREDECESSOR", this.ID + " " + this.Port + " " + this.IP);
+                    this.networkHandler.sendMessage("localhost", this.successorPort, updatePredecessor);
+                    Messages entryResponse = new Messages("ENTRY_ACK", this.ID + " " + this.Port + " " + this.IP);
+                    this.networkHandler.sendMessage("localhost", senderPort, entryResponse);
                 } else {
                     // old predecessor updates its succesor to new node
                     Messages updateSucessor = new Messages("UPDATE_SUCCESSOR", senderId + " " + senderPort + " " + senderIp);
@@ -76,14 +80,7 @@ public class BootServer extends BaseNode {
         throw new UnsupportedOperationException("Unimplemented method 'handleLookUP'");
     }
 
-    @Override
-    public void handleStatus(Messages msg) {
-        System.out.println("Router is working");
-        System.out.println("ID: " + this.ID);
-        System.out.println("Port: " + this.Port);
-        System.out.println("Predecessor ID: " + this.predecessorId);
-        System.out.println("Successor ID: " + this.successorId);
-    }
+ 
 
     @Override
     public void mapInit(File configFile) {
@@ -119,10 +116,12 @@ public class BootServer extends BaseNode {
     }
 
     @Override
-    public void handleUpdateSuccessor(Messages msg) {
+    public void handleEntryACK(Messages msg) {
+        System.out.println("Invalid for this type of node");
         
-
     }
+
+   
 
     
 }

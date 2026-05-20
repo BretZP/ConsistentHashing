@@ -8,6 +8,11 @@ public interface Node {
     void handleLookUP(Messages msg);
     void handleStatus(Messages msg);
     void handleUpdateSuccessor(Messages msg);
+    void handleUpdatePredecessor(Messages msg);
+    void handleDataRequest(Messages msg);
+    void handleEntryACK(Messages msg);
+
+
     
     boolean ownKey(int key);     
     void start();

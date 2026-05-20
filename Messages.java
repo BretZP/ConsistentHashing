@@ -3,7 +3,17 @@ import java.io.Serializable;
 
 public class Messages implements Serializable {
     public enum MessageType {
-        ENTRY, EXIT, INSERT, DELETE, LOOK_UP, STATUS, UPDATE_SUCCESSOR;
+        ENTRY, 
+        EXIT, 
+        INSERT, 
+        DELETE, 
+        LOOK_UP, 
+        STATUS, 
+        UPDATE_SUCCESSOR, 
+        UPDATE_PREDECESSOR,
+        DATA_REQUEST,
+        ENTRY_ACK,
+        ;
     }
 
     MessageType message; 

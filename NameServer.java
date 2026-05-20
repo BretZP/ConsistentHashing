@@ -37,16 +37,7 @@ public class NameServer extends BaseNode {
         throw new UnsupportedOperationException("Unimplemented method 'handleLookUP'");
     }
 
-    @Override
-    public void handleStatus(Messages msg) {
-        System.out.println(this.ID);
-        System.out.println(this.successorId);
-        System.out.println(this.successorPort);
-        System.out.println(this.predecessorId);
-        System.out.println(this.predecessorPort);
-       
-    }
-
+  
     @Override
     public void mapInit(File file) {
         try {
@@ -89,16 +80,11 @@ public class NameServer extends BaseNode {
 
         }
 
-    @Override
-    public void handleUpdateSuccessor(Messages msg) {
-        // Id, port, ip
-        System.out.println("update succ receive");
-        System.out.println(msg.content);
+    public void handleEntryACK(Messages msg) {
         String content[] = msg.content.split(" ");
-        this.successorId = Integer.parseInt(content[0]);
-        this.successorPort = Integer.parseInt(content[1]);
-        this.successorIp = content[2];
-        
+        Messages dataRequest = new Messages("DATA_REQUEST", this.ID + " " + this.Port + " " + this.IP);
+        this.networkHandler.sendMessage("localhost", this.successorPort, dataRequest);
+
 
     }
 

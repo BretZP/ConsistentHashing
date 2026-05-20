@@ -1,0 +1,3 @@
+- We are going to open a socket everytime we comunicate with another node.
+It is possible to reuse the initial socket (the one that stablished communication)
+if we add (socket) variable to router and pass on the client socket.
