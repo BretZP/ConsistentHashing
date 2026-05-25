@@ -22,6 +22,7 @@ public class Router {
                 case UPDATE_PREDECESSOR -> node.handleUpdatePredecessor(msg);
                 case ENTRY_ACK -> node.handleEntryACK(msg);
                 case DATA_REQUEST -> node.handleDataRequest(msg);
+                case SENDING_DATA -> node.handleSendingData(msg);
             }
         }
 

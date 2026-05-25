@@ -13,6 +13,7 @@ public class Messages implements Serializable {
         UPDATE_PREDECESSOR,
         DATA_REQUEST,
         ENTRY_ACK,
+        SENDING_DATA
         ;
     }
 
@@ -25,9 +26,10 @@ public class Messages implements Serializable {
             this.content = content;
 
         } catch (IllegalArgumentException e) {
-            System.err.println("Invalid command: " + msg);
+            System.err.println("Invalid command (Messages): " + msg);
         }
     }
+
 
     public MessageType getType() {    
         return message;

@@ -84,8 +84,16 @@ public class NameServer extends BaseNode {
         String content[] = msg.content.split(" ");
         Messages dataRequest = new Messages("DATA_REQUEST", this.ID + " " + this.Port + " " + this.IP);
         this.networkHandler.sendMessage("localhost", this.successorPort, dataRequest);
+    }
 
-
+    public void handleSendingData(Messages msg) {
+        System.out.println("data received");
+        String content[] = msg.content.split(" ");
+        int key = Integer.parseInt(content[0]);
+        String value = content[1];
+        System.out.println("adding" + " " + key + " " + value);
+        this.storeKeys.put(key, value);
+       
     }
 
 }

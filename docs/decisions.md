@@ -11,6 +11,13 @@
     -Reasoning: It makes the code more readable and easy to fix.
     For example, we can trace the issue among layers thanks to different exceptions in different classes together with print statements. Scoping the errors to one class, reduces complexity.  
     
+007 - Transfering Data 
+    After a new node enters the ring, it request data to its new successor. We are going about how to transfer this data.
+    1) Simplest way that matches structure. Sending a message (Creating new socket) everytime we send a pair key/value data. The structure is "Sending_Data key value", and this is done equal to the number of key/value pairs sent. 
+    Disadventages - Creating a new socket everytime
+    2) We could try to create another constructor for Message() where content is a Array of key/value pairs. We probably need to keep in mind the type of Array
+    3) We could  reuse sockets to send every key/value pair. This solution deals with creating new socket every time
+
 
 
 

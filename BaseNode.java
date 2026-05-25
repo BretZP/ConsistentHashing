@@ -87,9 +87,30 @@ import java.util.*;
 
     @Override
     public void handleDataRequest(Messages msg) {
+        // data is requested by new predeccessor, we use an iterator to dynamically remove data from the TreeMap
         System.out.println("data request received");
-        Messages sending_data = new Messages("Sending_data", null);
-        Iterator<Map
+        Messages sending_data = new Messages("SENDING_DATA", "");
+        Iterator<Map.Entry<Integer, String>> iterator = storeKeys.entrySet().iterator();
+        String[] content = msg.content.split(" ");
+        int id = Integer.parseInt(content[0]);
+        while (iterator.hasNext()) {
+            Map.Entry<Integer, String> entry = iterator.next();
+            if (entry.getKey() > id || entry.getKey() == 0) {
+                System.out.println("We do not send" + entry.getKey());
+                break;
+                
+            } else {
+                // building the string content for the message 
+                sending_data.content += entry.getKey() + " " + entry.getValue();
+                System.out.println("Sending" + " " + entry.getKey());
+                iterator.remove();
+                networkHandler.sendMessage("localhost", this.predecessorPort, sending_data); 
+            }
+
+
+
+        }
+
 
 
 

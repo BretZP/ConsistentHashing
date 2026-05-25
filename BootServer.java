@@ -121,6 +121,11 @@ public class BootServer extends BaseNode {
         
     }
 
+    @Override
+    public void handleSendingData(Messages msg) {
+        System.out.println("Invalid for this type of node");
+    }
+
    
 
     

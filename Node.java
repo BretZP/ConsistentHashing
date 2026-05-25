@@ -11,7 +11,8 @@ public interface Node {
     void handleUpdatePredecessor(Messages msg);
     void handleDataRequest(Messages msg);
     void handleEntryACK(Messages msg);
-
+    void handleSendingData(Messages msg);
+    
 
     
     boolean ownKey(int key);     
