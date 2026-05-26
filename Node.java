@@ -12,6 +12,8 @@ public interface Node {
     void handleDataRequest(Messages msg);
     void handleEntryACK(Messages msg);
     void handleSendingData(Messages msg);
+    void handleNameACK(Messages msg);
+    void handleSendingEntry(Messages msg);
     
 
     

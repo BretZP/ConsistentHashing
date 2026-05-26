@@ -23,6 +23,8 @@ public class Router {
                 case ENTRY_ACK -> node.handleEntryACK(msg);
                 case DATA_REQUEST -> node.handleDataRequest(msg);
                 case SENDING_DATA -> node.handleSendingData(msg);
+                case NAME_ACK -> node.handleNameACK(msg);
+                case SENDING_ENTRY -> node.handleSendingEntry(msg);
             }
         }
 

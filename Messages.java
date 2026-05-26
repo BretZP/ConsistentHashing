@@ -3,6 +3,7 @@ import java.io.Serializable;
 
 public class Messages implements Serializable {
     public enum MessageType {
+        SENDING_ENTRY,
         ENTRY, 
         EXIT, 
         INSERT, 
@@ -13,7 +14,8 @@ public class Messages implements Serializable {
         UPDATE_PREDECESSOR,
         DATA_REQUEST,
         ENTRY_ACK,
-        SENDING_DATA
+        SENDING_DATA,
+        NAME_ACK
         ;
     }
 
@@ -31,6 +33,10 @@ public class Messages implements Serializable {
     }
 
 
+    public void setMessage(String msg) {
+        this.message = MessageType.valueOf(msg);
+
+    }
     public MessageType getType() {    
         return message;
     }

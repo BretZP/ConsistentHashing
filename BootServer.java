@@ -38,18 +38,18 @@ public class BootServer extends BaseNode {
                     this.networkHandler.sendMessage("localhost", senderPort, entryResponse);
                 } else {
                     // old predecessor updates its succesor to new node
-                    Messages updateSucessor = new Messages("UPDATE_SUCCESSOR", senderId + " " + senderPort + " " + senderIp);
+                    Messages updatePredecessor = new Messages("UPDATE_PREDECESSOR", this.predecessorId + " " + this.predecessorPort + " " + this.predecessorIp);
+                    this.networkHandler.sendMessage("localhost", senderPort, updatePredecessor);
+                    Messages updateSuccessor = new Messages("UPDATE_SUCCESSOR", this.ID + " " + this.Port + " " + this.IP);
+                    this.networkHandler.sendMessage("localhost", senderPort, updateSuccessor);
                     this.predecessorId = senderId;
                     this.predecessorPort = senderPort;
                     this.predecessorIp = senderIp;
-                    this.networkHandler.sendMessage(this.predecessorIp, this.predecessorPort, updateSucessor);
-
-
                 }
 
             } else {
-
-                this.networkHandler.sendMessage(this.successorIp, this.successorPort, msg);
+                msg.setMessage("SENDING_ENTRY");
+                this.networkHandler.sendMessage("localhost", this.successorPort, msg);
             }
         }
         
@@ -126,6 +126,34 @@ public class BootServer extends BaseNode {
         System.out.println("Invalid for this type of node");
     }
 
+    @Deprecated
+    public void handleSendingEntry(Messages msg) {
+        System.out.println("sending entry");
+    }
+
+    @Override 
+    public void handleNameACK(Messages msg) {
+        System.out.println("Received nameACK");
+        String[] contentParts = msg.content.split(" ");
+        successorId = Integer.parseInt(contentParts[0]);
+        successorPort = Integer.parseInt(contentParts[1]);
+        successorIp = contentParts[2];
+        predecessorId = Integer.parseInt(contentParts[3]);
+        predecessorPort = Integer.parseInt(contentParts[4]);
+        predecessorIp = contentParts[5];
+        String senderIp = contentParts[6]; // when we change ip from localhost to correct
+        int senderPort = Integer.parseInt(contentParts[7]);
+        int senderId = Integer.parseInt(contentParts[8]);
+        Messages updatePredecessor = new Messages("UPDATE_PREDECESSOR", predecessorId + " " + predecessorPort + " " + predecessorIp);
+        this.networkHandler.sendMessage("localhost", senderPort, updatePredecessor);
+        Messages updateSuccessor = new Messages("UPDATE_SUCCESSOR", successorId + " " + successorPort + " " + successorIp);
+        this.networkHandler.sendMessage("localhost", senderPort, updateSuccessor);
+        Messages entryResponse = new Messages("ENTRY_ACK", this.ID + " " + this.Port + " " + this.IP);
+        this.networkHandler.sendMessage("localhost", senderPort, entryResponse);
+        // this means a name server has the id of the node entering
+        // we send to new node who owns that id (new successor) and who is their
+        // new predecessor
+    }
    
 
     

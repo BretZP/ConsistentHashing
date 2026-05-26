@@ -9,12 +9,37 @@ public class NameServer extends BaseNode {
 
     }
     
+    // Sending entry message to bootstrap
     @Override
     public void handleEntry(Messages msg) {
-        msg.content = this.ID + " " + this.Port + " " + this.IP;
-        this.networkHandler.sendMessage(this.BootStrapIP, this.BootStrapPort, msg);
+        Messages entry = new Messages("ENTRY", this.ID + " " + this.Port + " " + this.IP);
+        this.networkHandler.sendMessage("localhost", this.BootStrapPort, entry);
     }
+    
+    @Override
+    public void handleSendingEntry(Messages msg) {
+        String content[] = msg.content.split(" ");
+        int senderId = Integer.parseInt(content[0]);
+        int senderPort = Integer.parseInt(content[1]);
+        String senderIp = content[2];
+        if (this.ownKey(senderId) == true) {
+            // we update predecessor with sender
+            // we send boot name ACK with our info and predecessor info for new node
+            // 
+            msg.setMessage("NAME_ACK");
+            msg.content = this.ID + " " + this.Port + " " + this.IP + " " + this.predecessorId + " " + this.predecessorPort + " " + this.predecessorIp
+            + " " + senderIp + " " + senderPort + " " + senderId;
+            this.networkHandler.sendMessage("localhost", this.predecessorPort, msg);
+            this.predecessorId = senderId;
+            this.predecessorPort = senderPort;
+            this.predecessorIp = senderIp;
 
+        } else {
+            this.networkHandler.sendMessage("localhost", this.successorPort, msg);
+        }
+
+
+    }
  
     @Override
     public void handleExit(Messages msg) {
@@ -94,6 +119,10 @@ public class NameServer extends BaseNode {
         System.out.println("adding" + " " + key + " " + value);
         this.storeKeys.put(key, value);
        
+    }
+
+    public void handleNameACK(Messages msg) {
+        this.networkHandler.sendMessage("localhost", this.predecessorPort, msg);
     }
 
 }
