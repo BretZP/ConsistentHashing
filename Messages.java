@@ -8,14 +8,15 @@ public class Messages implements Serializable {
         EXIT, 
         INSERT, 
         DELETE, 
-        LOOK_UP, 
+        LOOKUP, 
         STATUS, 
         UPDATE_SUCCESSOR, 
         UPDATE_PREDECESSOR,
         DATA_REQUEST,
         ENTRY_ACK,
         SENDING_DATA,
-        NAME_ACK
+        NAME_ACK,
+        KEY_FOUND
         ;
     }
 

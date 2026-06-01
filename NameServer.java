@@ -59,7 +59,27 @@ public class NameServer extends BaseNode {
 
     @Override
     public void handleLookUP(Messages msg) {
-        throw new UnsupportedOperationException("Unimplemented method 'handleLookUP'");
+        String[] content = msg.content.split(" ");
+        int key = Integer.parseInt(content[0]);
+        
+        if (ownKey(key) == true) {
+            msg.setMessage("KEY_FOUND");
+            
+            msg.content += this.ID;
+            Object value = key;
+            String value1 = this.storeKeys.get(value);
+            msg.content += " ";
+            msg.content += value1;
+            this.networkHandler.sendMessage("localhost", this.predecessorPort, msg);
+        } else {
+            this.networkHandler.sendMessage("localhost", this.successorPort, msg);
+        }
+    }
+
+    @Override
+    public void handleKeyFound(Messages msg) {
+        this.networkHandler.sendMessage("localhost", this.predecessorPort, msg);
+      
     }
 
   
@@ -107,6 +127,12 @@ public class NameServer extends BaseNode {
 
     public void handleEntryACK(Messages msg) {
         String content[] = msg.content.split(" ");
+        Messages updateSuccessor = new Messages("UPDATE_SUCCESSOR", this.ID + " " + this.Port + " " + this.IP);
+        this.networkHandler.sendMessage("localhost", this.predecessorPort, updateSuccessor);
+        Messages updatePredecessor = new Messages("UPDATE_PREDECESSOR", this.ID + " " + this.Port + " " + this.IP);
+        this.networkHandler.sendMessage("localhost", this.successorPort, updatePredecessor);
+       
+       
         Messages dataRequest = new Messages("DATA_REQUEST", this.ID + " " + this.Port + " " + this.IP);
         this.networkHandler.sendMessage("localhost", this.successorPort, dataRequest);
     }

@@ -16,7 +16,7 @@ public class Router {
                 case EXIT -> node.handleExit(msg);
                 case INSERT -> node.handleInsert(msg);
                 case DELETE -> node.handleDelete(msg);
-                case LOOK_UP -> node.handleLookUP(msg);
+                case LOOKUP -> node.handleLookUP(msg);
                 case STATUS -> node.handleStatus(msg);
                 case UPDATE_SUCCESSOR -> node.handleUpdateSuccessor(msg);
                 case UPDATE_PREDECESSOR -> node.handleUpdatePredecessor(msg);
@@ -25,6 +25,7 @@ public class Router {
                 case SENDING_DATA -> node.handleSendingData(msg);
                 case NAME_ACK -> node.handleNameACK(msg);
                 case SENDING_ENTRY -> node.handleSendingEntry(msg);
+                case KEY_FOUND -> node.handleKeyFound(msg);
             }
         }
 

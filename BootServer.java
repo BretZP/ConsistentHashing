@@ -22,29 +22,26 @@ public class BootServer extends BaseNode {
             String senderIp = contentParts[2];
             if (this.ownKey(senderId)) {
                 if (this.predecessorId == this.ID) {
-                    this.predecessorId = senderId;
-                    this.predecessorPort = senderPort;
-                    this.predecessorIp = senderIp;
-                    this.successorId = senderId;
-                    this.successorPort = senderPort;
-                    this.successorIp = senderIp;
-
+                  
 
                     Messages updateSucessor = new Messages("UPDATE_SUCCESSOR", this.ID + " " + this.Port + " " + this.IP);
-                    this.networkHandler.sendMessage("localhost", this.predecessorPort, updateSucessor);
+                    this.networkHandler.sendMessage("localhost", senderPort, updateSucessor);
                     Messages updatePredecessor = new Messages("UPDATE_PREDECESSOR", this.ID + " " + this.Port + " " + this.IP);
-                    this.networkHandler.sendMessage("localhost", this.successorPort, updatePredecessor);
+                    this.networkHandler.sendMessage("localhost", senderPort, updatePredecessor);
                     Messages entryResponse = new Messages("ENTRY_ACK", this.ID + " " + this.Port + " " + this.IP);
                     this.networkHandler.sendMessage("localhost", senderPort, entryResponse);
                 } else {
                     // old predecessor updates its succesor to new node
+                    
+                    //
                     Messages updatePredecessor = new Messages("UPDATE_PREDECESSOR", this.predecessorId + " " + this.predecessorPort + " " + this.predecessorIp);
                     this.networkHandler.sendMessage("localhost", senderPort, updatePredecessor);
+                    //
                     Messages updateSuccessor = new Messages("UPDATE_SUCCESSOR", this.ID + " " + this.Port + " " + this.IP);
                     this.networkHandler.sendMessage("localhost", senderPort, updateSuccessor);
-                    this.predecessorId = senderId;
-                    this.predecessorPort = senderPort;
-                    this.predecessorIp = senderIp;
+                    Messages entryResponse = new Messages("ENTRY_ACK", this.ID + " " + this.Port + " " + this.IP);
+                    this.networkHandler.sendMessage("localhost", senderPort, entryResponse);
+            
                 }
 
             } else {
@@ -76,8 +73,31 @@ public class BootServer extends BaseNode {
 
     @Override
     public void handleLookUP(Messages msg) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleLookUP'");
+        String[] content = msg.content.split(" ");
+        int key = Integer.parseInt(content[0]);
+        if (ownKey(key) == true) {
+            Object value = key;
+            String value1 = storeKeys.get(value);
+            System.out.println("Key is found at" + 
+                " " + this.ID + " " + "value" + " " +
+                value1
+            );
+        } else {
+            System.out.println("key not in this machine");
+            networkHandler.sendMessage("localhost", successorPort, msg);
+        }
+        
+    }
+    
+    @Override
+    public void handleKeyFound(Messages msg) {
+        String[] content = msg.content.split(" ");
+        int key = Integer.parseInt(content[0]);
+        int id = Integer.parseInt(content[1]);
+        String value = content[2];
+        System.out.println("Key found at server " + id + " " 
+            + "with value " + " " + value);
+    
     }
 
  
