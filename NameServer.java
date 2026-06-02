@@ -33,6 +33,7 @@ public class NameServer extends BaseNode {
             this.predecessorId = senderId;
             this.predecessorPort = senderPort;
             this.predecessorIp = senderIp;
+            
 
         } else {
             this.networkHandler.sendMessage("localhost", this.successorPort, msg);
@@ -43,7 +44,65 @@ public class NameServer extends BaseNode {
  
     @Override
     public void handleExit(Messages msg) {
-        throw new UnsupportedOperationException("Unimplemented method 'handleExit'");
+        Messages exit = new Messages("EXIT" , this.ID + " " + this.Port + " " + this.IP 
+            + " " + this.successorId + " " + this.successorPort + " " + this.successorIp
+            + " "  + this.predecessorId + " " + this.predecessorPort + " " + this.predecessorIp  
+        );
+              
+        this.networkHandler.sendMessage("localhost", this.BootStrapPort, exit);
+    }
+
+
+    @Override
+    public void handleSendingExit(Messages msg) {
+        String[] content = msg.content.split(" ");
+        int exitId = Integer.parseInt(content[0]);
+
+        if (this.ID == exitId ) {
+            this.networkHandler.sendMessage("localhost", successorPort, msg);
+            this.successorId = this.ID;
+            this.successorPort = this.Port;
+            this.successorIp = this.IP;
+            this.predecessorId = this.ID;
+            this.predecessorPort = this.Port;
+            this.predecessorIp = this.IP;
+        
+            // send forward because predecessor send us SendingExit
+        } else if (exitId == successorId) {
+            // we need the new successor information
+            int newSuccessorId = Integer.parseInt(content[3]);
+            int newSuccessorPort = Integer.parseInt(content[4]);
+            String newSuccessorIp = content[5];
+            this.networkHandler.sendMessage("localhost", successorPort, msg);
+            this.successorId = newSuccessorId;
+            this.successorPort = newSuccessorPort;
+            this.successorIp = newSuccessorIp;
+           // might missing ack or sm for request data
+        } else if (exitId == predecessorId ) {
+            int newPredecessorId = Integer.parseInt(content[6]);
+            int newPredecessorPort = Integer.parseInt(content[7]);
+            String newPredecessorIp = content[8];
+            this.predecessorId = newPredecessorId;
+            this.predecessorPort = newPredecessorPort;
+            this.predecessorIp = newPredecessorIp;
+            // We dont send anything
+            // might need to request data
+           
+
+        } else {
+            this.networkHandler.sendMessage("localhost", successorPort, msg);
+          
+        }
+
+        
+
+
+
+    }
+
+    private void ifelse(boolean b) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'ifelse'");
     }
 
     @Override

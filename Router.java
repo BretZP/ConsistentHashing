@@ -26,6 +26,7 @@ public class Router {
                 case NAME_ACK -> node.handleNameACK(msg);
                 case SENDING_ENTRY -> node.handleSendingEntry(msg);
                 case KEY_FOUND -> node.handleKeyFound(msg);
+                case SENDING_EXIT -> node.handleSendingExit(msg);
             }
         }
 

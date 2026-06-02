@@ -16,7 +16,8 @@ public class Messages implements Serializable {
         ENTRY_ACK,
         SENDING_DATA,
         NAME_ACK,
-        KEY_FOUND
+        KEY_FOUND,
+        SENDING_EXIT
         ;
     }
 

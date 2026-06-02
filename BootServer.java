@@ -55,8 +55,48 @@ public class BootServer extends BaseNode {
 
     @Override
     public void handleExit(Messages msg) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleExit'");
+        System.out.println("receiving exit message");
+        String[] content = msg.content.split(" ");
+        int exitId = Integer.parseInt(content[0]);
+        int exitPort = Integer.parseInt(content[1]);
+        String ip = content[2];
+
+        if (exitId == this.successorId) {
+            msg.setMessage("SENDING_EXIT");
+            int newSuccessorId = Integer.parseInt(content[3]);
+            int newSuccessorPort = Integer.parseInt(content[4]);
+            String newSuccessorIp = content[5];
+            this.networkHandler.sendMessage("localhost", successorPort, msg);
+            this.successorId = newSuccessorId;
+            this.successorPort = newSuccessorPort;
+            this.successorIp = newSuccessorIp;
+            // We might be missing some ACK to request data 
+        } else {
+            System.out.println("It is not successor so we send it forward");
+            msg.setMessage("SENDING_EXIT");
+            this.networkHandler.sendMessage("localhost", successorPort, msg);
+            
+        }
+
+    }
+
+    @Override
+    public void handleSendingExit(Messages msg) {
+        String[] content = msg.content.split(" ");
+        int exitId = Integer.parseInt(content[0]);
+
+        if (exitId == predecessorId) {
+            int newPredecessorId = Integer.parseInt(content[6]);
+            int newPredecessorPort = Integer.parseInt(content[7]);
+            String newPredecessorIp = content[8];
+            this.predecessorId = newPredecessorId;
+            this.predecessorPort = newPredecessorPort;
+            this.predecessorIp = newPredecessorIp;
+          
+        } else {
+            System.out.println("SendingExit reached bootserver without finding predecessor");
+        }
+
     }
 
     @Override
@@ -155,18 +195,18 @@ public class BootServer extends BaseNode {
     public void handleNameACK(Messages msg) {
         System.out.println("Received nameACK");
         String[] contentParts = msg.content.split(" ");
-        successorId = Integer.parseInt(contentParts[0]);
-        successorPort = Integer.parseInt(contentParts[1]);
-        successorIp = contentParts[2];
-        predecessorId = Integer.parseInt(contentParts[3]);
-        predecessorPort = Integer.parseInt(contentParts[4]);
-        predecessorIp = contentParts[5];
+        int newSuccessorId = Integer.parseInt(contentParts[0]); //23
+        int newSuccessorPort = Integer.parseInt(contentParts[1]);
+        String newSuccessorIp = contentParts[2];
+        int newPredecessorId = Integer.parseInt(contentParts[3]); // 0
+        int newPredecessorPort = Integer.parseInt(contentParts[4]);
+        String newPredecessorIp = contentParts[5]; 
         String senderIp = contentParts[6]; // when we change ip from localhost to correct
         int senderPort = Integer.parseInt(contentParts[7]);
         int senderId = Integer.parseInt(contentParts[8]);
-        Messages updatePredecessor = new Messages("UPDATE_PREDECESSOR", predecessorId + " " + predecessorPort + " " + predecessorIp);
+        Messages updatePredecessor = new Messages("UPDATE_PREDECESSOR", newPredecessorId + " " + newPredecessorPort + " " + newPredecessorIp);
         this.networkHandler.sendMessage("localhost", senderPort, updatePredecessor);
-        Messages updateSuccessor = new Messages("UPDATE_SUCCESSOR", successorId + " " + successorPort + " " + successorIp);
+        Messages updateSuccessor = new Messages("UPDATE_SUCCESSOR", newSuccessorId + " " + newSuccessorPort + " " + newSuccessorIp);
         this.networkHandler.sendMessage("localhost", senderPort, updateSuccessor);
         Messages entryResponse = new Messages("ENTRY_ACK", this.ID + " " + this.Port + " " + this.IP);
         this.networkHandler.sendMessage("localhost", senderPort, entryResponse);
