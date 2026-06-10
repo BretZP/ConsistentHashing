@@ -115,14 +115,21 @@ public class BootServer extends BaseNode {
     public void handleLookUP(Messages msg) {
         String[] content = msg.content.split(" ");
         int key = Integer.parseInt(content[0]);
+       
         if (ownKey(key) == true) {
             Object value = key;
             String value1 = storeKeys.get(value);
-            System.out.println("Key is found at" + 
+            if (value1 == null) {
+               System.out.println("Value not found for key " + key);
+                
+            } else {
+                 System.out.println("Key is found at" + 
                 " " + this.ID + " " + "value" + " " +
                 value1
-            );
-        } else {
+                );
+            }
+        
+        }   else {
             System.out.println("key not in this machine");
             networkHandler.sendMessage("localhost", successorPort, msg);
         }

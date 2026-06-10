@@ -97,26 +97,17 @@ import java.util.*;
             Map.Entry<Integer, String> entry = iterator.next();
             if (entry.getKey() > id || entry.getKey() == 0) {
                 System.out.println("We do not send" + entry.getKey());
-                break;
-                
+                break;   
             } else {
                 // building the string content for the message 
-                sending_data.content += entry.getKey() + " " + entry.getValue();
-                System.out.println("Sending" + " " + entry.getKey());
+                sending_data.content += entry.getKey() + " " + entry.getValue() ;
+                System.out.println("Sending" + " " + sending_data.content);
                 iterator.remove();
                 networkHandler.sendMessage("localhost", this.predecessorPort, sending_data); 
+                sending_data.content = ""; // reset content for next message
             }
-
-
-
         }
-
-
-
-
     }
-
-
 }
 
 

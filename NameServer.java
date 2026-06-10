@@ -60,13 +60,7 @@ public class NameServer extends BaseNode {
 
         if (this.ID == exitId ) {
             this.networkHandler.sendMessage("localhost", successorPort, msg);
-            this.successorId = this.ID;
-            this.successorPort = this.Port;
-            this.successorIp = this.IP;
-            this.predecessorId = this.ID;
-            this.predecessorPort = this.Port;
-            this.predecessorIp = this.IP;
-        
+            
             // send forward because predecessor send us SendingExit
         } else if (exitId == successorId) {
             // we need the new successor information
@@ -82,11 +76,17 @@ public class NameServer extends BaseNode {
             int newPredecessorId = Integer.parseInt(content[6]);
             int newPredecessorPort = Integer.parseInt(content[7]);
             String newPredecessorIp = content[8];
+           
+            // We dont send anything
+            // might need to request data
+            Messages dataRequest = new Messages("DATA_REQUEST", this.ID + " " + this.Port + " " + this.IP);
+            this.networkHandler.sendMessage("localhost", this.predecessorPort, dataRequest);
+
+            
             this.predecessorId = newPredecessorId;
             this.predecessorPort = newPredecessorPort;
             this.predecessorIp = newPredecessorIp;
-            // We dont send anything
-            // might need to request data
+
            
 
         } else {
